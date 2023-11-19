@@ -1,0 +1,39 @@
+LET Loop = 1
+
+WHILE Loop == 1 REPEAT
+    PRINT "Calculadora em BASIC"
+    PRINT "Créditos: Por todo mundo"
+
+    PRINT "Escreva o Primeiro Digito"
+    INPUT PrimeiroNum
+
+    PRINT "Escolha o Operador Matematico"
+    PRINT "+ -> 1"
+    PRINT "- -> 2"
+    PRINT "* -> 3"
+    PRINT "/ -> 4"
+    INPUT Operador
+
+    PRINT "Escreva o Segundo Digito"
+    INPUT SegundoNum
+
+    IF Operador == 1 THEN
+        LET Result = PrimeiroNum + SegundoNum
+        PRINT Result
+    ENDIF
+
+    IF Operador == 2 THEN
+        LET Result = PrimeiroNum - SegundoNum
+        PRINT Result
+    ENDIF
+
+    IF Operador  == 3 THEN
+        LET Result = PrimeiroNum * SegundoNum
+        PRINT Result
+    ENDIF
+
+    IF Operador == 4 THEN
+        LET Result = PrimeiroNum / SegundoNum
+        PRINT Result
+    ENDIF
+ENDWHILE
