@@ -19,7 +19,7 @@ Projeto feito em faculdade, cada grupo teve que fazer um compilador. Para mais d
 <a href="https://mediacdns3.ulife.com.br/PAT/Upload/4199098/Sugesto_A3_TeoriadaComputaoeCompiladores_20230927214456.pdf" target="_blank"><img src="https://img.shields.io/badge/Google_Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white" target="_blank"></a>
 
 - Documentação do Projeto: <a href="https://docs.google.com/document/d/19B4J3XR61bs7SQPU2C9DYHOEXzRq0tSIc4N-eQnkERM/edit?usp=sharing" target="_blank"> Clique aqui </a>
-- Vídeo do Projeto: <a href="https://youtu.be/0xPpPUpHSGQ" target="_blank"> Clique aqui </a>  
+- Vídeo do Projeto: <a href="https://youtu.be/3dDAsOIkRLk" target="_blank"> Clique aqui </a>  
 
 ## 🚀 Linguagens
 
