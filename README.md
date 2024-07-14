@@ -1,5 +1,5 @@
 <h1 align="center">
-  Compilador Python de Basic para C <img width="25px" src="https://cdn.discordapp.com/attachments/1049167666876776458/1049167722082226186/icon.png"/>
+  Compilador Python de Basic para C <img width="25px" src="https://raw.githubusercontent.com/eoLucasS/portfolio/main/assets/img/icon.svg"/>
 </h1>
 
  <p align="center">
@@ -8,7 +8,9 @@
 
 <br>
 
-![Resultado final do projeto](https://cdn.discordapp.com/attachments/1167577713113055372/1175880615753699450/image.png?ex=656cd729&is=655a6229&hm=7b88c4e3225d13d40c56feb66e1118cc7957754f1bf1916172f2fe1290aabe08&)
+<p align="center">
+  <img src="assets\img/preview.png" width="650" height="338">
+</p>
 
 <br>
 
@@ -55,20 +57,27 @@ Esse projeto foi desenvolvido com as seguintes Linguagens:
 
  </p>
  
-## 💻 Autor<br>
+## 💻 Colaboradores<br>
 <table>
   <tr>
     <td align="center">
-      <a href="https://github.com/eoLucasS">
-        <img src="https://cdn.discordapp.com/attachments/1049167666876776458/1049179325410312292/tdi.png" width="100px;" /><br>
+      <a href="https://www.linkedin.com/in/lucaslopesdasilva/">
+        <img src="https://avatars.githubusercontent.com/u/119815116?v=4" width="100px;" /><br>
         <sub>
-          <b>Lucas Lopes</b>
+          <b>Lucas Silva</b>
         </sub>
       </a>
     </td>
+    <td align="center">
+      <a href="https://www.linkedin.com/in/nycolasagrgarcia/">
+        <img src="https://media.licdn.com/dms/image/C4E03AQHp2s4N73dbEA/profile-displayphoto-shrink_800_800/0/1658261108787?e=1725494400&v=beta&t=bY2v_s927nkomKEakSU8sGp6wDB0Wq94gBu9eHG-7Vw" width="100px;" /><br>
+        <sub>
+          <b>Nycolas Garcia</b>
+        </sub>
+      </a>
   </tr>
 </table>
 
 -----
 
-  <h3 align="center"> Developed by <a href="https://www.linkedin.com/in/lucaslopesdasilva/">Lucas Lopes</a> ☕</h3>
+<h3 align="center"> Desenvolvido por <a href="https://www.linkedin.com/in/lucaslopesdasilva/">Lucas Lopes da Silva</a> ☕</h3>
