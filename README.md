@@ -297,10 +297,19 @@ Compilador-A3/
   <tr>
     <td align="center">
       <a href="https://www.linkedin.com/in/lucaslopesdasilva/">
-        <img src="https://avatars.githubusercontent.com/u/119815116?v=4" width="100px;" alt="Lucas Silva" /><br>
-        <sub><b>Lucas Lopes da Silva</b></sub>
+        <img src="https://avatars.githubusercontent.com/u/119815116?v=4" width="100px;" /><br>
+        <sub>
+          <b>Lucas Silva</b>
+        </sub>
       </a>
     </td>
+    <td align="center">
+      <a href="https://www.linkedin.com/in/nycolasagrgarcia/">
+        <img src="https://avatars.githubusercontent.com/u/127459801?v=4" width="100px;" /><br>
+        <sub>
+          <b>Nycolas Garcia</b>
+        </sub>
+      </a>
   </tr>
 </table>
 
