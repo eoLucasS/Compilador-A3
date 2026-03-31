@@ -1,0 +1,14 @@
+# Countdown Timer
+# Counts down from a user-specified number to zero
+
+PRINT "Enter countdown start:"
+INPUT start
+
+LET n = start
+
+WHILE n > 0 REPEAT
+    PRINT n
+    LET n = n - 1
+ENDWHILE
+
+PRINT "Liftoff!"

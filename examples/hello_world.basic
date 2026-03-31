@@ -1,0 +1,4 @@
+# The classic first program
+
+PRINT "Hello, World!"
+PRINT "Welcome to the BASIC-to-C Compiler"

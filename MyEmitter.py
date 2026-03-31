@@ -1,4 +1,3 @@
-# O objeto Emitter mantém o controle do código gerado e o exibe como saída.
 class Emitter:
     def __init__(self, fullPath):
         self.fullPath = fullPath
@@ -14,7 +13,9 @@ class Emitter:
     def headerLine(self, code):
         self.header += code + '\n'
 
-    def writeFile(self):
-        with open(self.fullPath, 'w') as outputFile:
-            outputFile.write(self.header + self.code)
+    def getOutput(self):
+        return self.header + self.code
 
+    def writeFile(self):
+        with open(self.fullPath, 'w') as f:
+            f.write(self.getOutput())

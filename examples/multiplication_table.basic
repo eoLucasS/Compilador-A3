@@ -1,0 +1,16 @@
+# Multiplication Table
+# Prints the multiplication table for a given number
+
+PRINT "Multiplication Table Generator"
+PRINT "Enter a number:"
+INPUT num
+
+LET i = 1
+
+WHILE i <= 10 REPEAT
+    LET result = num * i
+    PRINT result
+    LET i = i + 1
+ENDWHILE
+
+PRINT "Done!"

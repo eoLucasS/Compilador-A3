@@ -1,0 +1,31 @@
+# Number Guessing Game
+# The "secret" is hardcoded since BASIC has no random
+
+LET secret = 42
+LET found = 0
+LET attempts = 0
+
+PRINT "==========================="
+PRINT "  Guess the Number (1-100)"
+PRINT "==========================="
+
+WHILE found == 0 REPEAT
+    PRINT "Enter your guess:"
+    INPUT guess
+    LET attempts = attempts + 1
+
+    IF guess == secret THEN
+        PRINT "Correct! You got it!"
+        PRINT "Total attempts:"
+        PRINT attempts
+        LET found = 1
+    ENDIF
+
+    IF guess < secret THEN
+        PRINT "Too low! Try higher."
+    ENDIF
+
+    IF guess > secret THEN
+        PRINT "Too high! Try lower."
+    ENDIF
+ENDWHILE

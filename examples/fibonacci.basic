@@ -1,0 +1,18 @@
+# Fibonacci Sequence Generator
+# Prints Fibonacci numbers up to a user-defined limit
+
+PRINT "Fibonacci Sequence Generator"
+PRINT "How many terms?"
+INPUT n
+
+LET a = 0
+LET b = 1
+LET count = 0
+
+WHILE count < n REPEAT
+    PRINT a
+    LET temp = b
+    LET b = a + b
+    LET a = temp
+    LET count = count + 1
+ENDWHILE

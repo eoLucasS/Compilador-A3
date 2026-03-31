@@ -1,15 +1,54 @@
-parse ::= {statement}
-statement ::= "PRINT" (expression | string) nl
-            | "IF" comparison "THEN" nl {statement} "ENDIF" nl
-            | "WHILE" comparison "REPEAT" nl {statement} "ENDWHILE" nl
-            | "LABEL" ident nl
-            | "GOTO" ident nl
-            | "LET" ident "=" expression nl
-            | "INPUT" ident nl
-comparison ::= expression (("==" | "!=" | ">" | ">=" | "<" | "<=") expression)+
-expression ::= term {( "-" | "+" ) term}
-term ::= unary {( "/" | "*" ) unary}
-unary ::= ["+" | "-"] primary
-primary ::= number | ident
-nl ::= '\n'+
+BASIC-to-C Compiler Grammar (BNF)
+===================================
 
+parse      ::= {statement}
+
+statement  ::= "PRINT" (expression | string) nl
+             | "IF" comparison "THEN" nl {statement} "ENDIF" nl
+             | "WHILE" comparison "REPEAT" nl {statement} "ENDWHILE" nl
+             | "LABEL" ident nl
+             | "GOTO" ident nl
+             | "LET" ident "=" expression nl
+             | "INPUT" ident nl
+
+comparison ::= expression (("==" | "!=" | ">" | ">=" | "<" | "<=") expression)+
+
+expression ::= term {( "-" | "+" ) term}
+
+term       ::= unary {( "/" | "*" ) unary}
+
+unary      ::= ["+" | "-"] primary
+
+primary    ::= number | ident
+
+nl         ::= '\n'+
+
+
+Token Types
+===========
+
+Keywords (100-199):
+  LABEL, GOTO, PRINT, INPUT, LET, IF, THEN, ENDIF, WHILE, REPEAT, ENDWHILE
+
+Literals:
+  NUMBER   integer or decimal (e.g. 42, 3.14)
+  IDENT    variable or label name (alphanumeric + underscore)
+  STRING   double-quoted text (no escape sequences)
+
+Operators (200+):
+  =   assignment
+  ==  equal
+  !=  not equal
+  <   less than
+  <=  less than or equal
+  >   greater than
+  >=  greater than or equal
+  +   addition / unary plus
+  -   subtraction / unary minus
+  *   multiplication
+  /   division
+
+Special:
+  NEWLINE  statement terminator
+  EOF      end of input
+  #        comment (rest of line ignored)

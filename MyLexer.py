@@ -1,53 +1,58 @@
 import enum
-# Importa o módulo de enumeração.
 
-from tkinter import *
-# Importa todas as classes, funções e variáveis do módulo tkinter.
 
-from tkinter import messagebox
-# Importa a função messagebox do módulo tkinter.
+class CompilerError(Exception):
+    """Base exception for compiler errors with line/position tracking."""
+    pass
 
-root = Tk()
-root.withdraw()
-# Cria uma instância de Tkinter e a retira da exibição.
 
-# O objeto Lexer acompanha a posição atual no código-fonte e produz cada token.
+class LexerError(CompilerError):
+    pass
+
 
 class Lexer:
-    def __init__(self, input):
-        # Código-fonte a ser analisado como uma string. Anexa uma nova linha para simplificar a análise/análise sintática do último token/declaração.
-        self.source = input + '\n'
-        self.curChar = ''   # Caractere atual na string.
-        self.curPos = -1    # Posição atual na string.
+    def __init__(self, source):
+        self.source = source + '\n'
+        self.curChar = ''
+        self.curPos = -1
+        self.line = 1
+        self.col = 0
         self.nextChar()
 
-    # Processa o próximo caractere.
     def nextChar(self):
         self.curPos += 1
         if self.curPos >= len(self.source):
-            self.curChar = '\0'  # EOF
+            self.curChar = '\0'
         else:
             self.curChar = self.source[self.curPos]
+            if self.curChar == '\n':
+                self.line += 1
+                self.col = 0
+            else:
+                self.col += 1
 
-    # Retorna o caractere seguinte.
     def peek(self):
         if self.curPos + 1 >= len(self.source):
             return '\0'
-        return self.source[self.curPos+1]
+        return self.source[self.curPos + 1]
 
-    # Se um token inválido for encontrado, exibe a mensagem de erro.
     def abort(self, message):
-        messagebox.showerror("Error", message)
-        root.mainloop()
+        raise LexerError(f"Line {self.line}, col {self.col}: {message}")
 
-    # Retorna o próximo token.
+    def skipWhitespace(self):
+        while self.curChar in (' ', '\t', '\r'):
+            self.nextChar()
+
+    def skipComment(self):
+        if self.curChar == '#':
+            while self.curChar != '\n':
+                self.nextChar()
+
     def getToken(self):
         self.skipWhitespace()
         self.skipComment()
         token = None
 
-        # Verifica o primeiro caractere deste token para ver se podemos decidir o que é.
-        # Se for um operador de vários caracteres (por exemplo, !=), número, identificador ou palavra-chave, processaremos o restante.
         if self.curChar == '+':
             token = Token(self.curChar, TokenType.PLUS)
         elif self.curChar == '-':
@@ -56,134 +61,108 @@ class Lexer:
             token = Token(self.curChar, TokenType.ASTERISK)
         elif self.curChar == '/':
             token = Token(self.curChar, TokenType.SLASH)
+
         elif self.curChar == '=':
-            # Verifica se este token é = ou ==
             if self.peek() == '=':
                 lastChar = self.curChar
                 self.nextChar()
                 token = Token(lastChar + self.curChar, TokenType.EQEQ)
             else:
                 token = Token(self.curChar, TokenType.EQ)
+
         elif self.curChar == '>':
-            # Verifica se este token é > ou >=
             if self.peek() == '=':
                 lastChar = self.curChar
                 self.nextChar()
                 token = Token(lastChar + self.curChar, TokenType.GTEQ)
             else:
                 token = Token(self.curChar, TokenType.GT)
+
         elif self.curChar == '<':
-            # Verifica se este token é < ou <=
             if self.peek() == '=':
                 lastChar = self.curChar
                 self.nextChar()
                 token = Token(lastChar + self.curChar, TokenType.LTEQ)
             else:
                 token = Token(self.curChar, TokenType.LT)
+
         elif self.curChar == '!':
             if self.peek() == '=':
                 lastChar = self.curChar
                 self.nextChar()
                 token = Token(lastChar + self.curChar, TokenType.NOTEQ)
             else:
-                self.abort("Esperado !=, obtido !" + self.peek())
+                self.abort(f"Expected '!=', got '!{self.peek()}'")
 
-        elif self.curChar == '\"':
-            # Obtém caracteres entre aspas.
+        elif self.curChar == '"':
             self.nextChar()
             startPos = self.curPos
-
-            while self.curChar != '\"':
-                # Não permite caracteres especiais na string. Sem caracteres de escape, novas linhas, tabs ou %.
-                # Será usado o printf do C nesta string.
-                if self.curChar == '\r' or self.curChar == '\n' or self.curChar == '\t' or self.curChar == '\\' or self.curChar == '%':
-                    self.abort("Caractere ilegal na string.")
+            while self.curChar != '"':
+                if self.curChar in ('\r', '\n', '\t', '\\', '%'):
+                    self.abort("Illegal character in string literal")
+                if self.curChar == '\0':
+                    self.abort("Unterminated string literal")
                 self.nextChar()
-
-            tokText = self.source[startPos: self.curPos]  # Obtém a substring.
+            tokText = self.source[startPos:self.curPos]
             token = Token(tokText, TokenType.STRING)
 
         elif self.curChar.isdigit():
-            # O caractere inicial é um dígito, então deve ser um número.
-            # Obtém todos os dígitos consecutivos e o decimal, se houver.
             startPos = self.curPos
             while self.peek().isdigit():
                 self.nextChar()
-            if self.peek() == '.':  # Decimal!
+            if self.peek() == '.':
                 self.nextChar()
-
-                # Deve ter pelo menos um dígito após o ponto decimal.
                 if not self.peek().isdigit():
-                    # Erro!
-                    self.abort("Caractere ilegal no número.")
+                    self.abort("Invalid decimal number — expected digit after '.'")
                 while self.peek().isdigit():
                     self.nextChar()
-
-            # Obtém a substring.
-            tokText = self.source[startPos: self.curPos + 1]
+            tokText = self.source[startPos:self.curPos + 1]
             token = Token(tokText, TokenType.NUMBER)
-        elif self.curChar.isalpha():
-            # O caractere inicial é uma letra, então deve ser um identificador ou uma palavra-chave.
-            # Obtém todos os caracteres alfanuméricos consecutivos.
-            startPos = self.curPos
-            while self.peek().isalnum():
-                self.nextChar()
 
-            # Verifica se o token está na lista de palavras-chave.
-            # Obtém a substring.
-            tokText = self.source[startPos: self.curPos + 1]
+        elif self.curChar.isalpha():
+            startPos = self.curPos
+            while self.peek().isalnum() or self.peek() == '_':
+                self.nextChar()
+            tokText = self.source[startPos:self.curPos + 1]
             keyword = Token.checkIfKeyword(tokText)
-            if keyword == None:  # Identificador
+            if keyword is None:
                 token = Token(tokText, TokenType.IDENT)
-            else:   # Palavra-chave
+            else:
                 token = Token(tokText, keyword)
+
         elif self.curChar == '\n':
-            # Nova linha.
             token = Token('\n', TokenType.NEWLINE)
+
         elif self.curChar == '\0':
-            # EOF.
             token = Token('', TokenType.EOF)
+
         else:
-            # Token desconhecido!
-            self.abort("Token desconhecido: " + self.curChar)
+            self.abort(f"Unknown token: '{self.curChar}'")
 
         self.nextChar()
         return token
 
-    # Ignora os espaços em branco, exceto as novas linhas, que serão usadas para indicar o fim de uma declaração.
-    def skipWhitespace(self):
-        while self.curChar == ' ' or self.curChar == '\t' or self.curChar == '\r':
-            self.nextChar()
 
-    def skipComment(self):
-        if self.curChar == '#':
-            while self.curChar != '\n':
-                self.nextChar()
-
-# Token contém o texto original e o tipo de token.
 class Token:
-    def __init__(self, tokenText, tokenKind):
-        # Texto real do token. Usado para identificadores, strings e números.
-        self.text = tokenText
-        # O TokenType ao qual este token é classificado.
-        self.kind = tokenKind
+    def __init__(self, text, kind):
+        self.text = text
+        self.kind = kind
 
     @staticmethod
-    def checkIfKeyword(tokenText):
+    def checkIfKeyword(text):
         for kind in TokenType:
-            # Depende de todos os valores de enumeração de palavra-chave sendo 1XX.
-            if kind.name == tokenText and kind.value >= 100 and kind.value < 200:
+            if kind.name == text and 100 <= kind.value < 200:
                 return kind
         return None
 
-# TokenType é a enumeração para todos os tipos de tokens.
+
 class TokenType(enum.Enum):
     EOF = -1
     NEWLINE = 0
     NUMBER = 1
     IDENT = 2
     STRING = 3
-    # Palavras-chave.
+    # Keywords (100-199)
     LABEL = 101
     GOTO = 102
     PRINT = 103
@@ -195,7 +174,7 @@ class TokenType(enum.Enum):
     WHILE = 109
     REPEAT = 110
     ENDWHILE = 111
-    # Operadores.
+    # Operators (200+)
     EQ = 201
     PLUS = 202
     MINUS = 203
@@ -207,8 +186,3 @@ class TokenType(enum.Enum):
     LTEQ = 209
     GT = 210
     GTEQ = 211
-
-
-
-
-

@@ -1,0 +1,48 @@
+# Simple Calculator
+# Reads two numbers and an operator, prints the result
+
+LET Loop = 1
+
+WHILE Loop == 1 REPEAT
+    PRINT "==========================="
+    PRINT "   BASIC Calculator"
+    PRINT "==========================="
+
+    PRINT "Enter first number:"
+    INPUT a
+
+    PRINT "Choose operation:"
+    PRINT "  1 -> Addition"
+    PRINT "  2 -> Subtraction"
+    PRINT "  3 -> Multiplication"
+    PRINT "  4 -> Division"
+    INPUT op
+
+    PRINT "Enter second number:"
+    INPUT b
+
+    IF op == 1 THEN
+        LET result = a + b
+        PRINT result
+    ENDIF
+
+    IF op == 2 THEN
+        LET result = a - b
+        PRINT result
+    ENDIF
+
+    IF op == 3 THEN
+        LET result = a * b
+        PRINT result
+    ENDIF
+
+    IF op == 4 THEN
+        LET result = a / b
+        PRINT result
+    ENDIF
+
+    PRINT "Again? (1=yes, 0=no)"
+    INPUT Loop
+ENDWHILE
+
+PRINT "Goodbye!"
